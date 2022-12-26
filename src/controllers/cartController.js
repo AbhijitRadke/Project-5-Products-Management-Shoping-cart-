@@ -165,17 +165,17 @@ const updateCart = async function (req, res) {
 
         }
         let itemsArr = existingcart.items
-        for (let i =0; i<itemsArr.length; i++) {
+        for (let i = 0; i < itemsArr.length; i++) {
             if (itemsArr[i].productId.toString() === productId) {
-             
+
                 if (itemsArr[i].quantity < removeProduct) {
                     return res.status(400).send({ status: false, msg: `There are only ${itemsArr[i].quantity} products` })
                 }
-                
+
                 itemsArr[i].quantity -= removeProduct
 
                 if (itemsArr[i].quantity == 0) {
-                  itemsArr.splice(i,1)
+                    itemsArr.splice(i, 1)
                 }
 
                 let responseData = await cartModel.findOneAndUpdate({ _id: cartId }, { $set: { items: itemsArr, totalPrice: price, totalItems: itemsArr.length } }, { new: true })
@@ -203,6 +203,10 @@ const deleteCart = async function (req, res) {
 
         let findUser = await userModel.findById(userId)
         if (!findUser) return res.status(404).send({ status: false, message: "User not found" })
+
+        const cheakCart = await cartModel.findOne({ userId: userId })
+        if(!cheakCart)return res.status(400).send({ status: false, msg: "User Dont have a cart" });
+        if(cheakCart.items.length == 0)return res.status(400).send({ status: false, msg: "cart is allrady Empty" });
 
 
         let items = [];

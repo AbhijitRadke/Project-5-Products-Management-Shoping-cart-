@@ -106,7 +106,7 @@ const userLogin = async function (req, res) {
         let checkEmail = await userModel.findOne({ email: email });
         if (!checkEmail) return res.status(404).send({ status: false, message: "This user is not found Please provide a correct Email" });
 
-        let checkPassword = await bcrypt.compare(password, checkEmail.password);
+        let checkPassword = await bcrypt.compare(password, checkEmail.password);   // mostly password used:- Abjhd@123/Pass@123
         if (!checkPassword) return res.status(400).send({ status: false, message: "please provide a correct password" });
 
         let userId = checkEmail._id
@@ -118,7 +118,7 @@ const userLogin = async function (req, res) {
         )
         res.setHeader("x-api-key", userToken)
 
-        return res.status(200).send({ status: true, message: " User login successfull", data: userId, userToken })
+        return res.status(200).send({ status: true, message: " User login successfull", userId: userId, userToken })
     }
     catch (err) {
         return res.status(500).send({ status: false, message: err.message });
@@ -156,8 +156,9 @@ const updateUser = async function (req, res) {
         let userId = req.params.userId;
         const data = req.body;
         let files = req.files;
+        console.log(files)
 
-        if (!isValidBody(data)) return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" });
+        if (!isValidBody(data) && (typeof(files) == "undefined")) return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" });
 
         let { fname, lname, email, phone, password, address } = data;
         
