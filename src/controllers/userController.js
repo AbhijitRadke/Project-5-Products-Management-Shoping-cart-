@@ -65,7 +65,7 @@ const userCreate = async function (req, res) {
 
 
         if (files.length === 0) return res.status(400).send({ status: false, message: "Profile Image is mandatory" })
-        if (!isVaildfile(files.originalname)) return res.status(400).send({ status: false, message: "profile image file is not valide" })
+        if (!isVaildfile(files[0].originalname)) return res.status(400).send({ status: false, message: "profile image file is not valide" })
         let profileImage = await config.uploadFile(files[0]); //upload image to AWS
 
         const encryptedPassword = await bcrypt.hash(password, 10) //encrypting password by using bcrypt.

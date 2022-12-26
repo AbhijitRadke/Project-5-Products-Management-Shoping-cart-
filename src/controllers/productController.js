@@ -45,7 +45,7 @@ const createProduct = async function (req, res) {
         if (availableSizes) {
             let sizeArr = availableSizes.toUpperCase().split(",")
             for (let i = 0; i < sizeArr.length; i++) {
-                if (!isvalidSize(size[i])) return res.status(400).send({ status: false, message: "Size is not Valid" })
+                if (!isvalidSize(sizeArr[i])) return res.status(400).send({ status: false, message: "Size is not Valid" })
             }
             data.availableSizes = sizeArr;
         }
