@@ -40,7 +40,7 @@ router.delete("/users/:userId/cart", cartController.deleteCart)
 // -----------order---------//
 
 router.post("/users/:userId/orders", orderControlar.createOrder)
-
+router.put("/users/:userId/orders",orderControlar.UpdateOrder)
 
 
 
