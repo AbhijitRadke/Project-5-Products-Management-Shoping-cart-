@@ -68,7 +68,7 @@ const UpdateOrder = async function (req, res) {
         if (!isValidBody(data)) return res.status(400).send({ status: false, message: "Please provide valid request body" })
 
         let { orderId, status } = data
-        if (!(["pending", "completed", "cancelled"].includes(status))) return res.status(400).send({ status: false, message: "only provide pending, completed, cancelled data " })
+        if (!(["completed", "cancelled"].includes(status))) return res.status(400).send({ status: false, message: "only provide pending, completed, cancelled data " })
         if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "Please provide valid User Id" })
         let userdata = await userModel.findById(userId)
         if (!userdata) return res.status(404).send({ status: false, msg: "user not found" })

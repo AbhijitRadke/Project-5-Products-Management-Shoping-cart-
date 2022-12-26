@@ -76,10 +76,11 @@ const getAllProducts = async function (req, res) {
         }
 
         const queryParams = req.query;
-        const { size, name, priceGreaterThan, priceLessThan, priceSort } = queryParams;
+        let { size, name, priceGreaterThan, priceLessThan, priceSort } = queryParams;
 
         //validation starts.
         if (isEmpty(size)) {
+            size = size.toUpperCase()
             if (!isvalidSize(size)) return res.status(400).send({ status: false, message: "Size is not valid" })
             filterQuery.availableSizes = size
         }
