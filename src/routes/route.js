@@ -33,9 +33,9 @@ router.post("/users/:userId/cart", authentication, authorization, cartController
 
 router.put("/users/:userId/cart", authentication, authorization, cartController.updateCart)
 
-router.get("/users/:userId/cart", authentication, middleware.authorization, cartController.getCart)
+router.get("/users/:userId/cart", authentication, authorization, cartController.getCart)
 
-router.delete("/users/:userId/cart", middleware.authentication, middleware.authorization, cartController.deleteCart)
+router.delete("/users/:userId/cart", authentication, authorization, cartController.deleteCart)
 
 // -----------order---------//
 
