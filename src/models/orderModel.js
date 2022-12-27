@@ -10,6 +10,7 @@ const orderSchema = new mongoose.Schema(
         },
         items: [
             {
+                _id: false,
                 productId: {
                     type: ObjectId,
                     ref: "product",
@@ -44,8 +45,7 @@ const orderSchema = new mongoose.Schema(
             trim: true,
         },
         deletedAt: {
-            type: Date,
-            default: Date.now(),
+            type: Date
         },
         isDeleted: {
             type: Boolean,
