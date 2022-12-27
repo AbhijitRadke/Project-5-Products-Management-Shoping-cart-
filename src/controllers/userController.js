@@ -47,7 +47,7 @@ const userCreate = async function (req, res) {
 
         if (!address) return res.status(400).send({ status: false, message: "address is required" })
 
-        if(!address.shipping) {
+        if (!address.shipping) {
             return res.status(400).send({ status: false, message: "Shipping address cannot be empty." })
         }
 
@@ -58,7 +58,7 @@ const userCreate = async function (req, res) {
             if (!(address.shipping.pincode)) return res.status(400).send({ status: false, message: "Shipping address's pincode Required" })
             if (!isValidpincode(address.shipping.pincode)) return res.status(400).send({ status: false, message: "Shipping Pinecode is not valide" })
 
-        } 
+        }
         // Billing Address validation
 
         if (address.billing) {
@@ -67,8 +67,9 @@ const userCreate = async function (req, res) {
             if (!(address.shipping.pincode)) return res.status(400).send({ status: false, message: "billing address's pincode Required" })
             if (!isValidpincode(address.billing.pincode)) return res.status(400).send({ status: false, message: "billing Pinecode is not valide" })
 
-        } else
+        } else {
             return res.status(400).send({ status: false, message: "Billing address cannot be empty." })
+        }
 
 
         if (files.length === 0) return res.status(400).send({ status: false, message: "Profile Image is mandatory" })
@@ -158,10 +159,10 @@ const updateUser = async function (req, res) {
         let files = req.files;
         console.log(files)
 
-        if (!isValidBody(data) && (typeof(files) == "undefined")) return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" });
+        if (!isValidBody(data) && (typeof (files) == "undefined")) return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" });
 
         let { fname, lname, email, phone, password, address } = data;
-        
+
         address = JSON.parse(address)
         console.log(address)
 
