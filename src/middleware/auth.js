@@ -7,26 +7,24 @@ const userModel = require('../models/userModel')
 const authentication = async function (req, res, next) {
     try {
         let bearerHeader = req.headers.authorization;
-        if (!bearerHeader) return res.status(400).send({ status: false, Error: "Enter Token In BearerToken" });
+        if (!bearerHeader) return res.status(400).send({ status: false, message: "Enter Token In BearerToken" });
 
         const bearer = bearerHeader.split(" ");
         const Token = bearer[1];
 
 
-        if (!Token) return res.status(403).send({ status: false, message: "invalid token" });
+        if (!Token) return res.status(400).send({ status: false, message: "invalid token" });
 
 
         jwt.verify(Token, "NAFS", function (err, decodedToken) {
-            if (err) {
-                return res.status(401).send({ status: false, message: " user is not Authenticated" });
-            } else {
-                req.decodedToken = decodedToken;
-                next();
-            }
+            if (err) return res.status(401).send({ status: false, message: "User is not Authenticated" });
+
+            req.decodedToken = decodedToken;
+            next();
+
         });
     } catch (err) {
-
-        return res.status(500).send({ msg: err.message });
+        res.status(500).send({ status: false , message: err.message });
     }
 };
 

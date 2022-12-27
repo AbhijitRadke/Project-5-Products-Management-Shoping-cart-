@@ -41,7 +41,7 @@ const userCreate = async function (req, res) {
 
 
         if (!password) return res.status(400).send({ status: false, message: "password is required" })
-        if (!isVaildPass(password.trim())) return res.status(400).send({ status: false, msg: "Please provide a valid Password with min 8 to 15 char with Capatial & special (@#$%^!) char " })
+        if (!isVaildPass(password.trim())) return res.status(400).send({ status: false, message: "Please provide a valid Password with min 8 to 15 char with Capatial & special (@#$%^!) char " })
 
 
 
@@ -75,58 +75,53 @@ const userCreate = async function (req, res) {
         if (!isVaildfile(files[0].originalname)) return res.status(400).send({ status: false, message: "profile image file is not valide" })
         let profileImage = await config.uploadFile(files[0]); //upload image to AWS
 
-        const encryptedPassword = await bcrypt.hash(password, 10) //encrypting password by using bcrypt.
+        const encryptedPassword = await bcrypt.hash(password, 10) //encrypting password by using bcrypt. // 10 => salt sound
 
         //object destructuring for response body.
         const userData = { fname, lname, email, profileImage, phone, password: encryptedPassword, address }
         const saveUserData = await userModel.create(userData);
-        return res.status(201).send({ status: true, message: "user created successfully.", data: saveUserData });
 
-    } catch (error) { return res.status(500).send({ status: false, message: error.message }) }
+        res.status(201).send({ status: true, message: "Success", data: saveUserData });
+
+    } catch (error) {
+        res.status(500).send({ status: false, message: error.message })
+    }
 }
-
-
-
 
 // ---------------login----
 const userLogin = async function (req, res) {
     try {
         let userdata = req.body
 
-        if (!isValidBody(userdata)) return res.status(400).send({ status: false, message: "provide user cradentials" })
+        if (!isValidBody(userdata)) return res.status(400).send({ status: false, message: "Please provide user cradentials !!!" })
         let { email, password } = userdata
 
-        if (!email) return res.status(400).send({ status: false, message: "email is requires" })
-        if (!isValidEmail(email.trim())) return res.status(409).send({ status: false, message: `${email} is not a valide email.` })
+        if (!email) return res.status(400).send({ status: false, message: "Email is required" })
+        if (!isValidEmail(email.trim())) return res.status(400).send({ status: false, message: `This is not a valid email.` })
 
-        if (!password) return res.status(400).send({ status: false, message: "password is required" })
-        if (!isVaildPass(password.trim())) return res.status(400).send({ status: false, msg: "Please provide a valid Password with min 8 to 15 char with Capatial & special (@#$%^!) char " })
-
+        if (!password) return res.status(400).send({ status: false, message: "Password is required" })
 
         let checkEmail = await userModel.findOne({ email: email });
         if (!checkEmail) return res.status(404).send({ status: false, message: "This user is not found Please provide a correct Email" });
 
         let checkPassword = await bcrypt.compare(password, checkEmail.password);   // mostly password used:- Abjhd@123/Pass@123
-        if (!checkPassword) return res.status(400).send({ status: false, message: "please provide a correct password" });
+        if (!checkPassword) return res.status(400).send({ status: false, message: "Your password is wrong, Please enter correct password" });
 
         let userId = checkEmail._id
         let userToken = jwt.sign({
             userId: userId.toString(),
             iat: Date.now()
         },
-            'NAFS', { expiresIn: "18000s" }
+            'NAFS', { expiresIn: "24h" }
         )
         res.setHeader("x-api-key", userToken)
 
-        return res.status(200).send({ status: true, message: " User login successfull", userId: userId, userToken })
+        res.status(200).send({ status: true, message: "Success", userId: userId, userToken })
     }
     catch (err) {
-        return res.status(500).send({ status: false, message: err.message });
+        res.status(500).send({ status: false, message: err.message });
     }
 }
-
-
-
 
 //-------------------get user---------------------------------
 
@@ -135,44 +130,39 @@ const userById = async function (req, res) {
     try {
 
         const userId = req.params.userId
-        if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "user id is not valide" })
+        if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "User id is not valid" })
 
         let userDetails = await userModel.findById(userId)
         if (!userDetails) return res.status(404).send({ status: false, message: "User not found" })
 
-        return res.status(200).send({ status: true, message: "User profile details", data: userDetails })
+        return res.status(200).send({ status: true, message: "Success", data: userDetails })
 
     } catch (error) {
-        return res.status(500).send({ status: false, msg: error.message })
+        return res.status(500).send({ status: false, message: error.message })
 
     }
 }
-
-
-
 
 const updateUser = async function (req, res) {
     try {
         let userId = req.params.userId;
         const data = req.body;
         let files = req.files;
-        console.log(files)
 
         if (!isValidBody(data) && (typeof(files) == "undefined")) return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" });
 
         let { fname, lname, email, phone, password, address } = data;
         
-        address = JSON.parse(address)
-        console.log(address)
+        if(address) address = JSON.parse(address)
 
         const dataToUpdate = {}
         if (fname) {
-            if (!isValidName(fname.trim())) return res.status(400).send({ status: false, msg: "First name is invalide" })
+            if (!isValidName(fname.trim())) return res.status(400).send({ status: false, message: "First name is invalide" })
             dataToUpdate.fname = fname
         }
 
         if (lname) {
-            if (!isValidName(lname.trim())) return res.status(400).send({ status: false, msg: "Last Name is invalide" });
+            if (!isValidName(lname.trim())) return res.status(400).send({ status: false, message: "Last Name is invalide" });
             dataToUpdate.lname = lname
         }
 
@@ -195,7 +185,6 @@ const updateUser = async function (req, res) {
             password = await bcrypt.hash(password, 10)
             dataToUpdate.password = password
         }
-
 
         if (files.length !== 0) {
             let profileImgUrl = await config.uploadFile(files[0])
@@ -234,7 +223,7 @@ const updateUser = async function (req, res) {
             { $set: dataToUpdate }
             , { new: true });
 
-        return res.status(200).send({ status: true, message: "User profile updated", data: updateData });
+        return res.status(200).send({ status: true, message: "Success", data: updateData });
     } catch (err) {
         return res.status(500).send({ status: false, message: err.message });
     }
