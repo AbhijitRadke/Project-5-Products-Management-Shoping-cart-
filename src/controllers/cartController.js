@@ -4,7 +4,7 @@ const userModel = require("../models/userModel")
 const productModel = require("../models/productModel")
 
 
-const { isValidBody, isEmpty, isValidObjectId, isvalidQuantity } = validator
+const { isValidBody, isValidObjectId, isvalidQuantity } = validator
 
 
 const cartData = async function (req, res) {
@@ -38,7 +38,7 @@ const cartData = async function (req, res) {
         if (cartId) {
             if (!isValidObjectId(cartId)) return res.status(400).send({ status: false, msg: "Please Enter valide cartId" })
             var existingcart = await cartModel.findOne({ _id: cartId, userId: userId })
-            if (!existingcart) return res.status(400).send({ status: false, msg: "cart is not presrnt Or not belongs to user" })
+            if (!existingcart) return res.status(403).send({ status: false, msg: "cart is not presrnt Or not belongs to user" })
 
 
             //updating price when products get added or removed.
@@ -69,7 +69,7 @@ const cartData = async function (req, res) {
 
         if (!cartId) {
             const findcart = await cartModel.findOne({ userId: userId })
-            if (findcart) return res.status(400).send({ status: false, msg: "cart is presrnt for user plase enter cart Id" })
+            if (findcart) return res.status(400).send({ status: false, msg: "cart is present for user please enter cart Id" })
 
             if (!existingcart) {
                 const cartData = {

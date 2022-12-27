@@ -24,6 +24,8 @@ const isValidPhone = function (num) {
     const reg = /^[0-9]{10}$/;
     return reg.test(num);
 }
+
+
 const isValidEmail = function (email) {
     if (typeof email === "undefined" || email === null) return false;
     if (typeof email === "string" && email.trim().length === 0) return false;

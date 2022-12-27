@@ -5,7 +5,7 @@ const cartModel = require("../models/cartMode")
 
 
 
-const { isValidBody, isEmpty, isValidObjectId, isvalidQuantity } = validator
+const { isValidBody, isValidObjectId, isvalidQuantity } = validator
 
 
 const createOrder = async function (req, res) {
@@ -47,17 +47,11 @@ const createOrder = async function (req, res) {
         return res.status(500).send({ status: false, message: error.message })
     }
 }
-/*
-- Updates an order status
-- Make sure the userId in params and in JWT token match.
-- Make sure the user exist
-- Get order id in request body
-- Make sure the order belongs to the user
-- Make sure that only a cancellable order could be canceled. Else send an appropriate error message and response.
-- __Response format__
-  - _**On success**_ - Return HTTP status 200. Also return the updated order document. The response should be a JSON object like [this](#successful-response-structure)
-  - _**On error**_ - Return a suitable error message with a valid HTTP status code. The response should be a JSON object like [this](#error-response-structure)
-*/
+
+
+
+
+
 
 
 
@@ -69,6 +63,7 @@ const UpdateOrder = async function (req, res) {
 
         let { orderId, status } = data
         if (!(["completed", "cancelled"].includes(status))) return res.status(400).send({ status: false, message: "only provide pending, completed, cancelled data " })
+        
         if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "Please provide valid User Id" })
         let userdata = await userModel.findById(userId)
         if (!userdata) return res.status(404).send({ status: false, msg: "user not found" })
@@ -79,8 +74,6 @@ const UpdateOrder = async function (req, res) {
         if (status == "cancelled") {
             if (orderdata.cancellable == "false") return res.status(400).send({ status: false, message: "this order cannot be cancellabled" })
         }
-
-
 
 
         let totalQuantity = 0
