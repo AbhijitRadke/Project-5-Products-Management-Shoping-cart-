@@ -187,14 +187,14 @@ const deleteCart = async function (req, res) {
 
         const cheakCart = await cartModel.findOne({ userId: userId })
         if(!cheakCart)return res.status(400).send({ status: false, message: "User Dont have a cart" });
-        if(cheakCart.items.length == 0) return res.status(200).send({ status: false, message: "Cart is already Empty" });
+        if(cheakCart.items.length == 0) return res.status(204).send({ status: false, message: "Cart is already Empty" }); // Please change status from 204 to 200 to see the response in postman
 
         let items = [];
         let totalPrice = 0
         let totalItems = 0
 
         const deletedCart = await cartModel.findOneAndUpdate({ userId: userId }, { items: items, totalPrice: totalPrice, totalItems: totalItems }, { new: true });
-        return res.status(200).send({ status: true, message: 'Success', data: deletedCart });
+        return res.status(204).send({ status: true, message: 'Success', data: deletedCart }); // Please change status from 204 to 200 to see the response in postman
     }
     catch (error) {
         res.status(500).send({ status: false, message: error.message })
