@@ -64,7 +64,7 @@ const userCreate = async function (req, res) {
         if (address.billing) {
             if (!isEmpty(address.billing.street)) return res.status(400).send({ status: false, message: "billing address's Street Required" })
             if (!isEmpty(address.billing.city)) return res.status(400).send({ status: false, message: "billing address city Required" })
-            if (!(address.shipping.pincode)) return res.status(400).send({ status: false, message: "billing address's pincode Required" })
+            if (!(address.billing.pincode)) return res.status(400).send({ status: false, message: "billing address's pincode Required" })
             if (!isValidpincode(address.billing.pincode)) return res.status(400).send({ status: false, message: "billing Pinecode is not valide" })
 
         } else {
@@ -109,10 +109,7 @@ const userLogin = async function (req, res) {
         if (!checkPassword) return res.status(400).send({ status: false, message: "Your password is wrong, Please enter correct password" });
 
         let userId = checkEmail._id
-        let userToken = jwt.sign({
-            userId: userId.toString(),
-            iat: Date.now()
-        },
+        let userToken = jwt.sign({ userId: userId.toString(), iat: Date.now() },
             'NAFS', { expiresIn: "24h" }
         )
         res.setHeader("x-api-key", userToken)
@@ -144,6 +141,8 @@ const userById = async function (req, res) {
     }
 }
 
+
+
 const updateUser = async function (req, res) {
     try {
         let userId = req.params.userId;
@@ -153,8 +152,8 @@ const updateUser = async function (req, res) {
         if (!isValidBody(data) && (typeof (files) == "undefined")) return res.status(400).send({ status: false, message: "Insert Data : BAD REQUEST" });
 
         let { fname, lname, email, phone, password, address } = data;
-        
-        if(address) address = JSON.parse(address)
+
+        if (address) address = JSON.parse(address)
 
         const dataToUpdate = {}
         if (fname) {

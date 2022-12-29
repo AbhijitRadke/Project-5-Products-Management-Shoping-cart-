@@ -4,15 +4,16 @@ const userModel = require("../models/userModel")
 const productModel = require("../models/productModel")
 
 
+
 const { isValidBody, isValidObjectId, isvalidQuantity } = validator
 
-
+const Abhijit = isValidBody
 const cartData = async function (req, res) {
     try {
         const userId = req.params.userId
         const data = req.body
 
-        if (!isValidBody(data)) return res.status(400).send({ status: false, message: "Please provide valid request body" })
+        if (!Abhijit(data)) return res.status(400).send({ status: false, message: "Please provide valid request body" })
 
         let { productId, cartId, quantity } = data
 
@@ -41,8 +42,8 @@ const cartData = async function (req, res) {
             //updating price when products get added or removed.
             let price = existingcart.totalPrice + (quantity * product.price)
             let itemsArr = existingcart.items
-            for (i in itemsArr) {
-                if (itemsArr[i].productId.toString() === productId) {
+            for (let i =0; i<itemsArr.length; i++) {
+                if (itemsArr[i].productId.toString() == productId) {
                     itemsArr[i].quantity += quantity
 
 

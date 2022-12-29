@@ -52,7 +52,7 @@ const isValidObjectId = function (objectId) {
 
 const isvalidQuantity = function isInteger(value) {
     if (value < 1) return false
-    if (isNaN(Number(value))) return false
+    if (isNaN(Number(value))) return false  
     if (value > 0) return true
 }
 const isvalidPrice = function (price) {
@@ -70,7 +70,7 @@ const isVaildPass = function (str) {
 }
 
 const isVaildfile = function (file) {
-    const re =/^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+    const re = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
     return re.test(file);
 }
 
