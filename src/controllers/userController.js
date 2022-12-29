@@ -32,7 +32,7 @@ const userCreate = async function (req, res) {
         if (!isValidEmail(email.trim())) return res.status(400).send({ status: false, message: `${email} is not a valide email.` })
         const isEmailAlreadyUsed = await userModel.findOne({ email })
         if (isEmailAlreadyUsed) { return res.status(409).send({ status: false, message: `${email} is already in use, Please try a new email.` }) }
-
+        // if resource is already presend in DB then we use 409 status code
 
         if (!phone) return res.status(400).send({ status: false, message: "phone is required" })
         if (!isValidPhone(phone)) return res.status(400).send({ status: false, message: `${phone} is not a valide phone.` })
