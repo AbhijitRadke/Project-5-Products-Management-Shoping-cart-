@@ -73,7 +73,7 @@ const userCreate = async function (req, res) {
 
 
         if (files.length === 0) return res.status(400).send({ status: false, message: "Profile Image is mandatory" })
-        if (!isVaildfile(files[0].originalname)) return res.status(400).send({ status: false, message: "profile image file is not valide" })
+        if (!isVaildfile(files[0].originalname)) return res.status(400).send({ status: false, message: "profile image format is not valid plese provied jpg/png format" })
         let profileImage = await config.uploadFile(files[0]); //upload image to AWS
 
         const encryptedPassword = await bcrypt.hash(password, 10) //encrypting password by using bcrypt. // 10 => salt sound
@@ -88,6 +88,10 @@ const userCreate = async function (req, res) {
         res.status(500).send({ status: false, message: error.message })
     }
 }
+
+
+
+
 
 // ---------------login----
 const userLogin = async function (req, res) {

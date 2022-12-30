@@ -7,13 +7,13 @@ const productModel = require("../models/productModel")
 
 const { isValidBody, isValidObjectId, isvalidQuantity } = validator
 
-const Abhijit = isValidBody
+
 const cartData = async function (req, res) {
     try {
         const userId = req.params.userId
         const data = req.body
 
-        if (!Abhijit(data)) return res.status(400).send({ status: false, message: "Please provide valid request body" })
+        if (!isValidBody(data)) return res.status(400).send({ status: false, message: "Please provide valid request body" })
 
         let { productId, cartId, quantity } = data
 
@@ -42,7 +42,7 @@ const cartData = async function (req, res) {
             //updating price when products get added or removed.
             let price = existingcart.totalPrice + (quantity * product.price)
             let itemsArr = existingcart.items
-            for (let i =0; i<itemsArr.length; i++) {
+            for (let i = 0; i < itemsArr.length; i++) {
                 if (itemsArr[i].productId.toString() == productId) {
                     itemsArr[i].quantity += quantity
 
@@ -187,8 +187,8 @@ const deleteCart = async function (req, res) {
         if (!findUser) return res.status(404).send({ status: false, message: "User not found" })
 
         const cheakCart = await cartModel.findOne({ userId: userId })
-        if(!cheakCart)return res.status(400).send({ status: false, message: "User Dont have a cart" });
-        if(cheakCart.items.length == 0) return res.status(204).send({ status: false, message: "Cart is already Empty" }); // Please change status from 204 to 200 to see the response in postman
+        if (!cheakCart) return res.status(400).send({ status: false, message: "User Dont have a cart" });
+        if (cheakCart.items.length == 0) return res.status(204).send({ status: false, message: "Cart is already Empty" }); // Please change status from 204 to 200 to see the response in postman
 
         let items = [];
         let totalPrice = 0

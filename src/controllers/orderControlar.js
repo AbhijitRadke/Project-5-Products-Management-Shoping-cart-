@@ -23,7 +23,7 @@ const createOrder = async function (req, res) {
         if (!cartdata) return res.status(404).send({ status: false, message: "cart not found" })
         if (cartdata.items.length === 0) return res.status(400).send({ status: false, message: "cart is empty, cannot create order" })
 
-        if (typeof cancellable !== "boolean") return res.status(400).send({ status: false, message: "cansable shuld be true/false" })
+        if (typeof cancellable !== "boolean") return res.status(400).send({ status: false, message: "cancellable should be true/false" })
 
         let totalQuantity = 0
         const itemsArr = cartdata.items
