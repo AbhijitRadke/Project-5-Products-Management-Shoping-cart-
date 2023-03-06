@@ -1,10 +1,10 @@
-**Overview of the Shopping Cart Project:**
+##Overview of the Shopping Cart Project:
 
-**Project description**
+#Project description
 
 The Shopping Cart project is a backend project that is similar to the backend of Flipkart. It enables users to register on the site by providing their personal information such as name, email ID, phone number, and address. Once registered, users can log in to the site using their user ID and password.
 
-**Features:**
+#Features:
 
 ***User Registration***: Users can register on the site by providing their personal information.
 
@@ -18,19 +18,19 @@ The Shopping Cart project is a backend project that is similar to the backend of
 
 ***Order Placement***: Users can place an order for products in their cart and cancel the order if needed.
 
-**Technologies used:**
+#**Technologies used:**
 
 In this project various technologies such used as programming language JavaScript with Node.js runtime, MongoDB database, Express.js framework and Git version control system
 
-**Benefits:** 
+#**Benefits:** 
 
 The Shopping Cart project provides a platform for companies to showcase and manage their products while enabling users to easily search, add, and remove products from their cart. The project also facilitates secure order placement and cancellation.
 
-**Target audience:**
+#**Target audience:**
 
 ` `The Shopping Cart project targets companies that want to create an online platform for their products and users who want to shop for products online.
 
-**Conclusion:** 
+#**Conclusion:** 
 
 The Shopping Cart project is a backend project that enables users to register, log in, search for products, manage their cart, and place orders securely. Companies can use this project to manage their products and provide a seamless shopping experience to their customers.
 
