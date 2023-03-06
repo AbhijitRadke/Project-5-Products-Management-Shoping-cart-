@@ -1,6 +1,39 @@
-# ShoppingCart
-#Lithium
-## Project - Products Management
+**Overview of the Shopping Cart Project:**
+
+**Project description**
+
+The Shopping Cart project is a backend project that is similar to the backend of Flipkart. It enables users to register on the site by providing their personal information such as name, email ID, phone number, and address. Once registered, users can log in to the site using their user ID and password.
+
+**Features:**
+
+***User Registration***: Users can register on the site by providing their personal information.
+
+***User Login***: Users can log in to the site using their user ID and password.
+
+***Product Search***: Users can search for products on the site using filters such as price range, name, size, and sorting options.
+
+***Product Management***: Companies can create products on the site and perform CRUD (create, read, update, delete) operations on them.
+
+***Cart Management***: Users can add and remove products from their cart, view their total quantity, total items, total price, and product list. They can also delete their entire cart.
+
+***Order Placement***: Users can place an order for products in their cart and cancel the order if needed.
+
+**Technologies used:**
+
+In this project various technologies such used as programming language JavaScript with Node.js runtime, MongoDB database, Express.js framework and Git version control system
+
+**Benefits:** 
+
+The Shopping Cart project provides a platform for companies to showcase and manage their products while enabling users to easily search, add, and remove products from their cart. The project also facilitates secure order placement and cancellation.
+
+**Target audience:**
+
+` `The Shopping Cart project targets companies that want to create an online platform for their products and users who want to shop for products online.
+
+**Conclusion:** 
+
+The Shopping Cart project is a backend project that enables users to register, log in, search for products, manage their cart, and place orders securely. Companies can use this project to manage their products and provide a seamless shopping experience to their customers.
+
 
 ### Key points
 - In this project we will work feature wise. That means we pick one object like user, book, blog, etc at a time. We work through it's feature. The steps would be:
